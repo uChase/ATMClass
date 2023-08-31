@@ -10,10 +10,13 @@ public class ATM {
         atm.closeAccount("chase");
         atm.openAccount("chase", 1.0);
         System.out.println(atm.checkBalance("chase"));
+        atm.depositMoney("chase", 2.0);
+        System.out.println(atm.checkBalance("chase"));
 
     }
 
     public void openAccount(String userId, Double amount) {
+
         if (accounts.putIfAbsent(userId, amount) != null) {
             throw new Error("user already exists", null);
         }
@@ -38,6 +41,15 @@ public class ATM {
             throw new Error("user does not exist", null);
         }
         return balance;
+    }
+
+    public void depositMoney(String userId, Double money) {
+        Double balance = accounts.get(userId);
+        if (balance == null) {
+            throw new Error("user does not exist", null);
+        }
+        Double newMoney = balance + money;
+        accounts.put(userId, newMoney);
     }
 
 }
