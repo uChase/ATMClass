@@ -12,6 +12,8 @@ public class ATM {
         System.out.println(atm.checkBalance("chase"));
         atm.depositMoney("chase", 2.0);
         System.out.println(atm.checkBalance("chase"));
+        atm.withdrawMoney("chase", 2.0);
+        System.out.println(atm.checkBalance("chase"));
 
     }
 
@@ -43,13 +45,27 @@ public class ATM {
         return balance;
     }
 
-    public void depositMoney(String userId, Double money) {
+    public Double depositMoney(String userId, Double money) {
         Double balance = accounts.get(userId);
         if (balance == null) {
             throw new Error("user does not exist", null);
         }
         Double newMoney = balance + money;
         accounts.put(userId, newMoney);
+        return newMoney;
+    }
+
+    public Double withdrawMoney(String userId, Double money) {
+        Double balance = accounts.get(userId);
+        if (balance == null) {
+            throw new Error("user does not exist", null);
+        }
+        Double newMoney = balance - money;
+        if (newMoney < 0) {
+            throw new Error("you too broke lmao", null);
+        }
+        accounts.put(userId, newMoney);
+        return newMoney;
     }
 
 }
