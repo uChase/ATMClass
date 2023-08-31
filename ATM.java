@@ -9,6 +9,7 @@ public class ATM {
         atm.openAccount("chase", 0.0);
         atm.closeAccount("chase");
         atm.openAccount("chase", 1.0);
+        System.out.println(atm.checkBalance("chase"));
 
     }
 
@@ -29,6 +30,14 @@ public class ATM {
 
         }
         accounts.remove(userId);
+    }
+
+    public Double checkBalance(String userId) {
+        Double balance = accounts.get(userId);
+        if (balance == null) {
+            throw new Error("user does not exist", null);
+        }
+        return balance;
     }
 
 }
