@@ -14,6 +14,10 @@ public class ATM {
         System.out.println(atm.checkBalance("chase"));
         atm.withdrawMoney("chase", 2.0);
         System.out.println(atm.checkBalance("chase"));
+        atm.openAccount("aaron", 5.0);
+        atm.transferMoney("aaron", "chase", 4.0);
+        System.out.println(atm.checkBalance("chase"));
+        System.out.println(atm.checkBalance("aaron"));
 
     }
 
@@ -66,6 +70,26 @@ public class ATM {
         }
         accounts.put(userId, newMoney);
         return newMoney;
+    }
+
+    public Boolean transferMoney(String from, String to, Double money) {
+        Double fromBalance = accounts.get(from);
+        Double toBalance = accounts.get(to);
+
+        if (fromBalance == null || toBalance == null) {
+            throw new Error("user does not exist", null);
+        }
+
+        Double newFromBalance = fromBalance - money;
+        if (newFromBalance < 0) {
+            throw new Error("you too broke lmao", null);
+        }
+        Double newToBalance = toBalance + money;
+        accounts.put(from, newFromBalance);
+        accounts.put(to, newToBalance);
+
+        return true;
+
     }
 
 }
