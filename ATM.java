@@ -1,4 +1,12 @@
 import java.util.HashMap; // import the HashMap class
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.util.Map;
+
+import java.io.FileReader;
 
 public class ATM {
     HashMap<String, Double> accounts = new HashMap<String, Double>();
@@ -18,6 +26,7 @@ public class ATM {
         atm.transferMoney("aaron", "chase", 4.0);
         System.out.println(atm.checkBalance("chase"));
         System.out.println(atm.checkBalance("aaron"));
+        atm.audit();
 
     }
 
@@ -89,6 +98,26 @@ public class ATM {
         accounts.put(to, newToBalance);
 
         return true;
+
+    }
+
+    public void audit() {
+        try {
+            FileWriter fileWriter = new FileWriter("AccountAudit.txt");
+            BufferedWriter b = new BufferedWriter(fileWriter);
+            for (Map.Entry<String, Double> entry : accounts.entrySet()) {
+                String key = entry.getKey();
+                Double value = entry.getValue();
+                System.out.println("Key: " + key + ", Value: " + value);
+                b.write("Account: " + key + ", Balance: " + value);
+                b.write('\n');
+            }
+            b.close();
+            fileWriter.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 
